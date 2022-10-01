@@ -26,7 +26,11 @@ public class JwtUtil {
 
     public Claims getClaims(final String token) {
         try {
-            Claims body = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+            String authToken = token;
+            if (token != null && token.startsWith("Bearer ")) {
+                authToken = token.substring(7);
+            }
+            Claims body = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody();
             return body;
         } catch (SignatureException ex) {
             System.out.println("Invalid JWT signature >" + token);
@@ -43,6 +47,8 @@ public class JwtUtil {
         } catch (IllegalArgumentException ex) {
             System.out.println("JWT claims string is empty >" + token);
             throw ex;
+        } catch (Exception e) {
+            throw e;
         }
     }
 
