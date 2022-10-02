@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -24,13 +25,17 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        ServerHttpRequest request = (ServerHttpRequest) exchange.getRequest();
-        final List<String> apiEndpoints = List.of("/register", "/login");
-        Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints
-                .stream()
-                .noneMatch(uri -> r.getURI()
-                        .getPath()
-                        .endsWith(uri));
+        ServerHttpRequest request = exchange.getRequest();
+        final List<String> apiEndpoints = List.of("/users", "/login");
+        Predicate<ServerHttpRequest> isApiSecured = r -> {
+            return !(r.getMethod().compareTo(HttpMethod.POST) == 0
+                     &&
+                     apiEndpoints
+                             .stream()
+                             .anyMatch(uri -> r.getURI()
+                                     .getPath()
+                                     .endsWith(uri)));
+        };
         if (isApiSecured.test(request)) {
             if (!request.getHeaders().containsKey("Authorization")) {
                 ServerHttpResponse response = exchange.getResponse();
