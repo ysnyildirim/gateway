@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class CloudConfig {
-
     @Autowired
     private JwtAuthenticationFilter filter;
 
@@ -27,6 +26,4 @@ public class CloudConfig {
                 .route("jobModule", r -> r.path("/api/job/v1/**").filters(f -> f.filter(filter)).uri("http://localhost:8089/"))
                 .build();
     }
-
-
 }

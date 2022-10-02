@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2022. Tüm hakları Yasin Yıldırım'a aittir.
  */
-
 package com.yil.gateway;
 
 import io.jsonwebtoken.*;
@@ -12,7 +11,6 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-
     @Value("${jwt.secret}")
     private String jwtSecret;
 
@@ -51,5 +49,4 @@ public class JwtUtil {
             throw e;
         }
     }
-
 }
