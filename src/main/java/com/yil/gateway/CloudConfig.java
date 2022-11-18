@@ -15,8 +15,8 @@ public class CloudConfig {
     public RouteLocator gwRoutes(RouteLocatorBuilder builder) {
         return builder
                 .routes()
-                .route("addressModule", r -> r.path("/api/address/v1/**").filters(f -> f.filter(filter)).uri("http://localhost:8081/"))
-                .route("accountModule", r -> r.path("/api/account/v1/**").filters(f -> f.filter(filter)).uri("http://localhost:8082/"))
+                .route("addressModule", r -> r.path("/api/adr/v1/**").filters(f -> f.filter(filter)).uri("http://localhost:8081/"))
+                .route("accountModule", r -> r.path("/api/acc/v1/**").filters(f -> f.filter(filter)).uri("http://localhost:8082/"))
                 .route("personModule", r -> r.path("/api/prs/v1/**").filters(f -> f.filter(filter)).uri("http://localhost:8083/"))
                 .route("companyModule", r -> r.path("/api/cmp/v1/**").filters(f -> f.filter(filter)).uri("http://localhost:8084/"))
                 .route("organizationModule", r -> r.path("/api/org/v1/**").filters(f -> f.filter(filter)).uri("http://localhost:8085/"))
